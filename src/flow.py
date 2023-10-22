@@ -6,8 +6,8 @@ import numpy.typing as npt
 
 
 class Flow:
-    def __init__(self, arr: Union[List | npt.NDArray]):
-        self._arr = np.array(arr, dtype=np.int64)
+    def __init__(self, amounts: Union[List | npt.NDArray]):
+        self._arr = np.array(amounts, dtype=np.int64)
         if len(self._arr.shape) != 1:
             raise ValueError("A Flow is one dimensional")
 
