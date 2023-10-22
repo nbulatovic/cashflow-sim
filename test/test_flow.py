@@ -12,7 +12,7 @@ class TestFlow(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_total_should_return_0_given_empty_flow(self):
-        src = Flow([])
+        src = Flow.empty()
         expected = 0
 
         result = src.total()
@@ -109,16 +109,16 @@ class TestFlow(unittest.TestCase):
         self.assertEqual(result, expected)
 
     def test_merge_should_return_empty_flow_given_empty_inputs(self):
-        src1 = Flow([])
-        src2 = Flow([])
-        expected = Flow([])
+        src1 = Flow.empty()
+        src2 = Flow.empty()
+        expected = Flow.empty()
 
         result = Flow.merge(src1, src2)
 
         self.assertEqual(result, expected)
 
     def test_merge_should_return_the_non_empty_flow_given_one_input_is_empty(self):
-        src1 = Flow([])
+        src1 = Flow.empty()
         src2 = Flow([1, 2, 3])
         expected = Flow([1, 2, 3])
 
@@ -145,9 +145,8 @@ class TestFlow(unittest.TestCase):
         self.assertEqual(expected, result)
 
     def test_merge_all_should_return_empty_flow_given_empty_list_given(self):
-        src = []
-        expected = Flow([])
-        result = Flow.merge_all(src)
+        expected = Flow.empty()
+        result = Flow.merge_all([])
         self.assertEqual(expected, result)
 
     def test_merge_all_should_return_the_merged_flows_given_two_input(self):

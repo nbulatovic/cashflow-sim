@@ -44,17 +44,21 @@ class Flow:
         return summed
 
     @classmethod
+    def empty(cls):
+        return cls([])
+
+    @classmethod
     def merge(cls, flow1, flow2):
         merged_data = add_safely(flow1._data, flow2._data)
-        return Flow(merged_data)
+        return cls(merged_data)
 
     @classmethod
     def merge_all(cls, flows):
         match len(flows):
             case 0:
-                return Flow([])
+                return cls([])
             case _:
-                return Flow.merge(flows[0], Flow.merge_all(flows[1:]))
+                return cls.merge(flows[0], cls.merge_all(flows[1:]))
 
     def is_negative(self, include_zero=False):
         if include_zero:
