@@ -7,15 +7,9 @@ import numpy.typing as npt
 
 class Flow:
     def __init__(self, arr: Union[List | npt.NDArray]):
-
-        if isinstance(arr, list):
-            self._arr = np.array(arr)
-        elif isinstance(arr, np.ndarray):
-            self._arr = arr
-        else:
-            raise NotImplemented
+        self._arr = np.array(arr, dtype=np.int64)
         if len(self._arr.shape) != 1:
-            raise ValueError("flows are one dimensional")
+            raise ValueError("A Flow is one dimensional")
 
     def __len__(self):
         return len(self._arr)
@@ -28,6 +22,9 @@ class Flow:
             raise ValueError(
                 f"Sizes don't match: {len(self)} != {len(other)}")
         return Flow(np.add(self._arr, other._arr))
+
+    def __str__(self):
+        return f'{type(self).__name__}({self._arr})'
 
     def get_sum(self):
         return self._arr.sum()
@@ -44,7 +41,3 @@ class Flow:
         for flow in flows:
             merged += flow
         return merged
-
-
-if __name__ == "__main__":
-    Flow(np.array([1, -2, 30, 4, 0, 1, -2, 30, 4, 5])).plot()

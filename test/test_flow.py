@@ -67,3 +67,7 @@ class TestFlow(unittest.TestCase):
 
         result = Flow(src)
         self.assertEqual(result, expected)
+
+    def test_a_flow_raises_error_if_payload_cannot_be_interpreted_as_int(self):
+        with self.assertRaises(ValueError):
+            _ = Flow(["1.0", "2.0", " 3.0"])
