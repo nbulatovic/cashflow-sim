@@ -4,18 +4,18 @@ from src.flow import *
 
 
 class TestFlow(unittest.TestCase):
-    def test_get_sum_should_return_the_sum_correctly(self):
+    def test_total_should_return_the_sum_correctly(self):
         src = Flow([1, 2, 3, -4])
         expected = 2
 
-        result = src.get_sum()
+        result = src.total()
         self.assertEqual(result, expected)
 
-    def test_get_sum_should_return_0_given_empty_flow(self):
+    def test_total_should_return_0_given_empty_flow(self):
         src = Flow([])
         expected = 0
 
-        result = src.get_sum()
+        result = src.total()
 
         self.assertEqual(result, expected)
 

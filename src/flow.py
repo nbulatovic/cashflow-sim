@@ -26,18 +26,24 @@ class Flow:
     def __str__(self):
         return f'{type(self).__name__}({self._arr})'
 
-    def get_sum(self):
-        return self._arr.sum()
+    def __repr__(self):
+        return self.__str__()
 
-    def plot(self):
-        x = np.arange(len(self._arr))
-        y = self._arr
-        color = np.where(y < 0, "r", "g")
-        plt.bar(x, y, color=color)
-        plt.show()
+    def total(self):
+        return self._arr.sum()
 
     def merge(self, flows):
         merged = self
         for flow in flows:
             merged += flow
         return merged
+
+    def plot(self):
+        x = np.arange(len(self._arr))
+        y = self._arr
+        color = np.where(y < 0, "r", "g")
+
+        plt.figure(figsize=(12, 4), dpi=100)
+        plt.bar(x, y, color=color)
+        plt.tight_layout()
+        plt.show()
