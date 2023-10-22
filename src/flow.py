@@ -1,0 +1,50 @@
+from typing import List, Union
+
+import matplotlib.pyplot as plt
+import numpy as np
+import numpy.typing as npt
+
+
+class Flow:
+    def __init__(self, arr: Union[List | npt.NDArray]):
+
+        if isinstance(arr, list):
+            self._arr = np.array(arr)
+        elif isinstance(arr, np.ndarray):
+            self._arr = arr
+        else:
+            raise NotImplemented
+        if len(self._arr.shape) != 1:
+            raise ValueError("flows are one dimensional")
+
+    def __len__(self):
+        return len(self._arr)
+
+    def __eq__(self, other):
+        return np.array_equal(self._arr, other._arr)
+
+    def __add__(self, other):
+        if len(self) != len(other):
+            raise ValueError(
+                f"Sizes don't match: {len(self)} != {len(other)}")
+        return Flow(np.add(self._arr, other._arr))
+
+    def get_sum(self):
+        return self._arr.sum()
+
+    def plot(self):
+        x = np.arange(len(self._arr))
+        y = self._arr
+        color = np.where(y < 0, "r", "g")
+        plt.bar(x, y, color=color)
+        plt.show()
+
+    def merge(self, flows):
+        merged = self
+        for flow in flows:
+            merged += flow
+        return merged
+
+
+if __name__ == "__main__":
+    Flow(np.array([1, -2, 30, 4, 0, 1, -2, 30, 4, 5])).plot()
