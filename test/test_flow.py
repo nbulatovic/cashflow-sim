@@ -71,3 +71,48 @@ class TestFlow(unittest.TestCase):
     def test_a_flow_raises_error_if_payload_cannot_be_interpreted_as_int(self):
         with self.assertRaises(ValueError):
             _ = Flow(["1.0", "2.0", " 3.0"])
+
+    def test_a_flow_update_mutates_the_object_by_adding_the_other_flows_value(self):
+        src1 = Flow([1, 2, 3, 4, 5])
+        src2 = Flow([-1, 3, -3, 10, -5])
+        expected = Flow([0, 5, 0, 14, 0])
+
+        src1.update(src2)
+
+        self.assertEqual(src1, expected)
+
+    def test_a_flow_is_negative_should_return_true_if_all_amounts_is_negative(self):
+        src = Flow([-1, -2, -10, -4, -5])
+        expected = True
+        result = src.is_negative()
+        self.assertEqual(result, expected)
+
+    def test_a_flow_is_negative_should_return_false_if_any_amounts_is_not_negative(self):
+        src = Flow([-1, -2, 0, -4, -5])
+        expected = False
+        result = src.is_negative()
+        self.assertEqual(result, expected)
+
+    def test_a_flow_is_negative_should_return_true_if_all_amounts_is_negative_or_zero_if_flag_is_set(self):
+        src = Flow([-1, -2, 0, -4, -5])
+        expected = True
+        result = src.is_negative(include_zero=True)
+        self.assertEqual(result, expected)
+
+    def test_a_flow_is_positive_should_return_true_if_all_amounts_is_positive(self):
+        src = Flow([1, 2, 10, 4, 5])
+        expected = True
+        result = src.is_positive()
+        self.assertEqual(result, expected)
+
+    def test_a_flow_is_positive_should_return_false_if_any_amounts_is_not_positive(self):
+        src = Flow([1, 2, 0, 4, 5])
+        expected = False
+        result = src.is_positive()
+        self.assertEqual(result, expected)
+
+    def test_a_flow_is_positive_should_return_true_if_all_amounts_is_positive_or_zero_if_flag_is_set(self):
+        src = Flow([1, 2, 0, 4, 5])
+        expected = True
+        result = src.is_positive(include_zero=True)
+        self.assertEqual(result, expected)
