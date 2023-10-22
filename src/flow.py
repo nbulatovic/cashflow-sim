@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import numpy.typing as npt
 
+from src.utils import add_safely
+
 
 class Flow:
 
@@ -19,6 +21,7 @@ class Flow:
         return np.array_equal(self._data, other._data)
 
     def __add__(self, other):
+        """adds two even sized flow element-wise creating a new one"""
         if len(self) != len(other):
             raise ValueError(
                 f"Sizes don't match: {len(self)} != {len(other)}")
@@ -33,14 +36,25 @@ class Flow:
     def total(self):
         return self._data.sum()
 
-    def merge(self, flows):
-        merged = self
+    def add_flows(self, flows):
+        """adds the other even sized flow element-wise creating a new one"""
+        summed = self
         for flow in flows:
-            merged += flow
-        return merged
+            summed += flow
+        return summed
 
-    def update(self, other):
-        self._data = np.add(self._data, other._data)
+    @classmethod
+    def merge(cls, flow1, flow2):
+        merged_data = add_safely(flow1._data, flow2._data)
+        return Flow(merged_data)
+
+    @classmethod
+    def merge_all(cls, flows):
+        match len(flows):
+            case 0:
+                return Flow([])
+            case _:
+                return Flow.merge(flows[0], Flow.merge_all(flows[1:]))
 
     def is_negative(self, include_zero=False):
         if include_zero:
